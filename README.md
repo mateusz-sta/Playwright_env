@@ -73,7 +73,7 @@ await page.locator('login-input');
 
 ## Aninimizacja danych
 
-- Utwórz folder test-data z plikiem `login.data.ts`
+- Utwórz folder `/test-data z plikiem` `login.data.ts`
 - Utwórz poniżej obiekt `const` przetrzymujący wartości zmiennej
 
 ```javascript
