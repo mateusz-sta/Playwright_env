@@ -20,7 +20,6 @@ test.describe('User login to Demobank', () => {
     await page.goto('/');
   });
   // Act
-
   test('login with correct credentials', async ({ page }) => {
     await page.getByTestId('login-input').fill(login);
     await page.getByTestId('password-input').fill(password);
