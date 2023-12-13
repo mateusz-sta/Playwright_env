@@ -5,12 +5,11 @@ import { newTestLogin, newTestTransfer } from '../pages/newTestPages.page';
 test.describe('Logging in to the bank and making a transfer', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
-    //test('Login with correct credentials', async ({ page }) => {
-    //Act
+    //Arrange
     const userLogin = userLoginData.userLogin;
     const userPassword = userLoginData.userPassword;
     const expectedUser = userLoginData.expectedUser;
-    //Arrange
+    //Act
     const login = new newTestLogin(page);
     await login.loginInput.fill(userLogin);
     await login.passwordInput.fill(userPassword);
@@ -20,12 +19,12 @@ test.describe('Logging in to the bank and making a transfer', () => {
   });
 
   test('Bank transfer', async ({ page }) => {
-    //Act
+    //Arrange
     const transferReceiver = transferData.transferReceiver;
     const transferAmount = transferData.transferAmount;
     const transferTitle = transferData.transferTitle;
     const expectedMessage = `Przelew wykonany! Chuck Demobankowy - ${transferAmount},00PLN - Przelew`;
-    //Arrange
+    //Act
     const transfer = new newTestTransfer(page);
     await transfer.transferReceiverInput.selectOption(transferReceiver);
     await transfer.transferAmountInput.fill(transferAmount);
@@ -33,6 +32,6 @@ test.describe('Logging in to the bank and making a transfer', () => {
     await transfer.transferButton.click();
     await transfer.closeButon.click();
     //Assert
-    await expect (transfer.expectedUserTransfer).toHaveText(expectedMessage)
-    });
+    await expect(transfer.expectedUserTransfer).toHaveText(expectedMessage);
   });
+});
