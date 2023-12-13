@@ -16,3 +16,4 @@ export const transferLoginData = {
   transferTitle: 'przelew środków',
   namerReceiver: 'Tomasz Słonina - zaufany',
 };
+

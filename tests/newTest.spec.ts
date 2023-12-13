@@ -1,8 +1,16 @@
 import { test, expect } from '@playwright/test';
-import { transferData, userLoginData } from '../test-data/newTestData.spec';
-import { newTestLogin, newTestTransfer } from '../pages/newTestPages.page';
+import {
+  topUpData,
+  transferData,
+  userLoginData,
+} from '../test-data/newTestData.spec';
+import {
+  newTestLogin,
+  newTestTopUp,
+  newTestTransfer,
+} from '../pages/newTestPages.page';
 
-test.describe('Logging in to the bank and making a transfer', () => {
+test.describe('Logging in to the bank and making a transfer and phone top up', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
     //Arrange
@@ -33,5 +41,22 @@ test.describe('Logging in to the bank and making a transfer', () => {
     await transfer.closeButon.click();
     //Assert
     await expect(transfer.expectedUserTransfer).toHaveText(expectedMessage);
+  });
+
+  test('Phone top up transfer', async ({ page }) => {
+    //Arrange
+    const topUpReceiver = topUpData.topUpReceiver;
+    const topUpAmount = topUpData.topUpAmount;
+    const topUpButton = topUpData.topUpButton;
+    const topUpExpectedMessage = `Doładowanie wykonane! ${topUpAmount},00PLN na numer ${topUpReceiver}`;
+    //Act
+    const topUp = new newTestTopUp(page);
+    await topUp.topUpReceiverInput.selectOption(topUpReceiver);
+    await topUp.topUpAmountInput.fill(topUpAmount);
+    await topUp.TopUpAgreementCheckbox.click();
+    await topUp.topUpButton.click();
+    await topUp.topUpCloseButton.click();
+    //Assert
+    await expect(topUp.topUpExpectedMessage).toHaveText(topUpExpectedMessage);
   });
 });
