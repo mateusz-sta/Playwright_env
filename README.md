@@ -113,8 +113,9 @@ import { Page } from '@playwright/test';
 - Jako body wklej klasę, można to zrobić wpisując `class` i wybierając drugą wartość z podpowiedzi
 
 ```javascript
-class name {
-  constructor(parameters) {}
+ export class name {
+  constructor(private page: Page) {}
+  loginButton = this.page.getByTestId('login-button');
 }
 ```
 

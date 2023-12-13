@@ -1,22 +1,38 @@
 import { test, expect } from '@playwright/test';
+import { transferData, userLoginData } from '../test-data/newTestData.spec';
+import { newTestLogin, newTestTransfer } from '../pages/newTestPages.page';
 
 test.describe('Logging in to the bank and making a transfer', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
-  });
-
-  test('Login with correct credentials', async ({ page }) => {
-    const userLogin = 'Johnatan';
-    const userPassword = '12345678';
-    const expectedUser = 'Jan Demobankowy';
+    //test('Login with correct credentials', async ({ page }) => {
     //Act
-
+    const userLogin = userLoginData.userLogin;
+    const userPassword = userLoginData.userPassword;
+    const expectedUser = userLoginData.expectedUser;
     //Arrange
-    await page.getByTestId('login-input').fill(userLogin);
-    await page.getByTestId('password-input').fill(userPassword);
-    await page.getByTestId('login-button').click();
-
+    const login = new newTestLogin(page);
+    await login.loginInput.fill(userLogin);
+    await login.passwordInput.fill(userPassword);
+    await login.loginButton.click();
     //Assert
-    await expect(page.getByTestId('user-name')).toHaveText(expectedUser);
+    await expect(login.expectedUserName).toHaveText(expectedUser);
   });
-});
+
+  test('Bank transfer', async ({ page }) => {
+    //Act
+    const transferReceiver = transferData.transferReceiver;
+    const transferAmount = transferData.transferAmount;
+    const transferTitle = transferData.transferTitle;
+    const expectedMessage = `Przelew wykonany! Chuck Demobankowy - ${transferAmount},00PLN - Przelew`;
+    //Arrange
+    const transfer = new newTestTransfer(page);
+    await transfer.transferReceiverInput.selectOption(transferReceiver);
+    await transfer.transferAmountInput.fill(transferAmount);
+    await transfer.transferTitleInput.fill(transferTitle);
+    await transfer.transferButton.click();
+    await transfer.closeButon.click();
+    //Assert
+    await expect (transfer.expectedUserTransfer).toHaveText(expectedMessage)
+    });
+  });
