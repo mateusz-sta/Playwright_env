@@ -8,5 +8,4 @@ export const userLoginData = {
     transferReceiver: '2',
     transferAmount: '1000',
     transferTitle: 'Przelew',
-    
   };
