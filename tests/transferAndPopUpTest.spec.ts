@@ -1,14 +1,8 @@
 import { test, expect } from '@playwright/test';
-import {
-  topUpData,
-  transferData,
-  userLoginData,
-} from '../test-data/newTestData.spec';
-import {
-  newTestLogin,
-  newTestTopUp,
-  newTestTransfer,
-} from '../pages/newTestPages.page';
+import { topUpData, transferData } from '../test-data/newTestData.spec';
+import { TestLogin } from '../pages/testLogin.page';
+import { newTestTopUp, newTestTransfer } from '../pages/newTestPages.page';
+import { userLoginData } from '../test-data/userLoginData.spec';
 
 test.describe('Logging in to the bank and making a transfer and phone top up', () => {
   test.beforeEach(async ({ page }) => {
@@ -18,7 +12,7 @@ test.describe('Logging in to the bank and making a transfer and phone top up', (
     const userPassword = userLoginData.userPassword;
     const expectedUser = userLoginData.expectedUser;
     //Act
-    const login = new newTestLogin(page);
+    const login = new TestLogin(page);
     await login.loginInput.fill(userLogin);
     await login.passwordInput.fill(userPassword);
     await login.loginButton.click();
